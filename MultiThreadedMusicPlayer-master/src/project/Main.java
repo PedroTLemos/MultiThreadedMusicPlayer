@@ -17,6 +17,7 @@ public class Main {
         System.out.println("Spotifly");
         List<Musica> musicas = new ArrayList<>();
         String input = "";
+        /*
         do {
             System.out.println("Por favor, insira o comando que deseja executar:\n" +
                     "'A'- ADICIONAR 'D'- DELETAR 'S'- SAIR.");
@@ -61,6 +62,6 @@ public class Main {
             }
 
         }while(!input.equals("S"));
-        
+        */
     }
 }

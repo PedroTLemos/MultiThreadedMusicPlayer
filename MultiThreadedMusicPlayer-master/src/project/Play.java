@@ -89,4 +89,7 @@ public class Play extends Thread{
     static public String getTempo(){
         return tempoAtual;
     }
+    static public int getCounter() {
+    	return counter;
+    }
 }

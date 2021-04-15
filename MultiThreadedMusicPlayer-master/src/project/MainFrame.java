@@ -27,6 +27,11 @@ public class MainFrame extends JFrame implements ActionListener{
 	JLabel musicPlaying = new JLabel("Nome da Musica");
 	JLabel musicTimer = new JLabel("00:00");
 
+	
+	JProgressBar bar = new JProgressBar();
+
+ main
+
 	List<Musica> musicas = new ArrayList<>();
 	String[] musica = {"a","b"};
 	JList songList = new JList();
@@ -67,7 +72,6 @@ public class MainFrame extends JFrame implements ActionListener{
     	rmvSong.setBounds(210,410,200,25);
     	rmvSong.setFont(new Font("Comic Sans", Font.BOLD, 14));
     	
-    	JProgressBar bar = new JProgressBar();
     	bar.setValue(0);
     	bar.setBounds(10,100,560,8);
     	
@@ -188,6 +192,8 @@ public class MainFrame extends JFrame implements ActionListener{
 				playB.setText("Pause");
 			}else{
 				Play.alterarPause();
+ 
+
 				playB.setText("Play");
 			}
 		}
@@ -197,9 +203,24 @@ public class MainFrame extends JFrame implements ActionListener{
 				musicTimer.setText(Play.getTempo());
 			}
 			if (Play.finished){
+        main
 				playB.setText("Play");
 				musicPlaying.setText("Nome da Música");
 				musicTimer.setText("00:00");
+			}
+		}
+		else if (e.getSource().equals(timer)) {
+			if (musicas.size() != 0){
+				musicPlaying.setText(musicas.get(Play.retornarMusicaAtual()).getNome());
+				musicTimer.setText(Play.getTempo());
+				int dur=musicas.get(Play.retornarMusicaAtual()).getDuracao();
+				bar.setValue((Play.getCounter()*100 / dur)-1);
+			}
+			if (Play.finished){
+				playB.setText("Play");
+				musicPlaying.setText("Nome da Musica");
+				musicTimer.setText("00:00");
+				bar.setValue(0);
 			}
 		}
 		else if(e.getSource()==backB) {
@@ -208,15 +229,5 @@ public class MainFrame extends JFrame implements ActionListener{
 		else if(e.getSource()==skipB) {
 			Play.avancarMusica();
 		}
-		/*
-		if(action != null){
-			try {
-				action.join();
-			} catch (InterruptedException e1) {
-				e1.printStackTrace();
-			}
-		}
-		*/
 	}
-	
 }
