@@ -1,6 +1,6 @@
 package project;
 
-import javax.swing.JFrame;
+import javax.swing.*;
 
 
 import java.awt.Color;
@@ -10,14 +10,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import javax.swing.ImageIcon;
-import javax.swing.JScrollPane;
-import javax.swing.JList;
-import javax.swing.JProgressBar;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
 
 public class MainFrame extends JFrame implements ActionListener{
 	
@@ -31,14 +23,20 @@ public class MainFrame extends JFrame implements ActionListener{
 	JTextField insertSong = new JTextField("Nome da Musica");
 	JTextField insertDuration = new JTextField("Duracao (segundos)");
 	JTextField rmvSong = new JTextField("Nome da Musica");
-	
+
+	JLabel musicPlaying = new JLabel("Nome da Musica");
+	JLabel musicTimer = new JLabel("00:00");
+
 	List<Musica> musicas = new ArrayList<>();
 	String[] musica = {"a","b"};
 	JList songList = new JList();
 	
     Thread action = null;
     Thread play = null;
-	
+
+	Timer timer = new Timer(1000, this);
+
+
 	MainFrame(){
 		this.setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE); // fecha a aplicacao quando fecha a janela
     	this.setResizable(false); // impede de mudar o tamanho da janela
@@ -53,12 +51,12 @@ public class MainFrame extends JFrame implements ActionListener{
     	JScrollPane songPanel = new JScrollPane(songList);
     	songPanel.setBounds(10,140,290,200);
     	
-    	JLabel musicPlaying = new JLabel("Nome da Musica");
+
     	musicPlaying.setBounds(12,80,200,20);
     	musicPlaying.setFont(new Font("Comic Sans", Font.BOLD, 14));
-    	JLabel musicTimer = new JLabel("00:00");
-    	musicTimer.setBounds(528,80,60,20);
-    	musicTimer.setFont(new Font("Comic Sans", Font.BOLD, 14));
+
+		musicTimer.setBounds(528,80,60,20);
+		musicTimer.setFont(new Font("Comic Sans", Font.BOLD, 14));
     	
     	insertSong.setBounds(210,355,200,25);
     	insertSong.setFont(new Font("Comic Sans", Font.BOLD, 14));
@@ -150,6 +148,9 @@ public class MainFrame extends JFrame implements ActionListener{
     	this.add(skipB);
     	//this.add(congelar);
     	//this.add(labelSong);
+
+		timer.start();
+
 	}
 	
 	@Override
@@ -158,29 +159,47 @@ public class MainFrame extends JFrame implements ActionListener{
 			int duration = Integer.parseInt(insertDuration.getText());
 			action = new AdicionarMusica(musicas, insertSong.getText(), duration);
             action.start();
-            songList.setListData(musicas.stream().map(Musica::getNome).toArray(String[]::new));
+			try {
+				action.join();
+			} catch (InterruptedException interruptedException) {
+				interruptedException.printStackTrace();
+			}
+			songList.setListData(musicas.stream().map(Musica::getNome).toArray(String[]::new));
 		}
 		else if(e.getSource()==rmvSongB) {
 			action = new DeletarMusica(musicas, rmvSong.getText());
             action.start();
+			try {
+				action.join();
+			} catch (InterruptedException interruptedException) {
+				interruptedException.printStackTrace();
+			}
             songList.setListData(musicas.stream().map(Musica::getNome).toArray(String[]::new));
 		}
 		else if(e.getSource()==playB) {
 			if(playB.getText()=="Play") {
-				if (Play.getPause()){
-	                Play.alterarEstado();
+				if (Play.pause && !Play.finished){
+	                Play.alterarPause();
 	            }
 	            else{
 	                play = new Play(musicas);
 	                play.start();
 	            }
 				playB.setText("Pause");
-				while(true) {
-					System.out.print(1);
-				}
 			}else{
-				Play.alterarEstado();
+				Play.alterarPause();
 				playB.setText("Play");
+			}
+		}
+		else if (e.getSource().equals(timer)) {
+			if (musicas.size() != 0){
+				musicPlaying.setText(musicas.get(Play.retornarMusicaAtual()).getNome());
+				musicTimer.setText(Play.getTempo());
+			}
+			if (Play.finished){
+				playB.setText("Play");
+				musicPlaying.setText("Nome da Música");
+				musicTimer.setText("00:00");
 			}
 		}
 		else if(e.getSource()==backB) {
