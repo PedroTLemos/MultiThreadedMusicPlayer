@@ -26,8 +26,11 @@ public class MainFrame extends JFrame implements ActionListener{
 
 	JLabel musicPlaying = new JLabel("Nome da Musica");
 	JLabel musicTimer = new JLabel("00:00");
+
 	
 	JProgressBar bar = new JProgressBar();
+
+ main
 
 	List<Musica> musicas = new ArrayList<>();
 	String[] musica = {"a","b"};
@@ -189,7 +192,21 @@ public class MainFrame extends JFrame implements ActionListener{
 				playB.setText("Pause");
 			}else{
 				Play.alterarPause();
+ 
+
 				playB.setText("Play");
+			}
+		}
+		else if (e.getSource().equals(timer)) {
+			if (musicas.size() != 0){
+				musicPlaying.setText(musicas.get(Play.retornarMusicaAtual()).getNome());
+				musicTimer.setText(Play.getTempo());
+			}
+			if (Play.finished){
+        main
+				playB.setText("Play");
+				musicPlaying.setText("Nome da Música");
+				musicTimer.setText("00:00");
 			}
 		}
 		else if (e.getSource().equals(timer)) {
