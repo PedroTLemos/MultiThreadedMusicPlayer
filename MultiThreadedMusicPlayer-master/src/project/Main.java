@@ -1,9 +1,7 @@
 package project;
 import java.util.concurrent.*;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
-import javax.swing.JLabel;
+import javax.swing.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -14,10 +12,12 @@ public class Main {
     public static void main(String[] args) throws InterruptedException {
     	
     	MainFrame frame = new MainFrame();
+    	frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     	
         System.out.println("Spotifly");
         List<Musica> musicas = new ArrayList<>();
         String input = "";
+        /*
         do {
             System.out.println("Por favor, insira o comando que deseja executar:\n" +
                     "'A'- ADICIONAR 'D'- DELETAR 'S'- SAIR.");
@@ -40,15 +40,15 @@ public class Main {
             }else if(input.equals("S")) {
                 System.out.println("Adeus!");
             }else if(input.equals("Play")) {
-                if (Play.getPause()){
-                    Play.alterarEstado();
+                if (Play.pause){
+                    Play.alterarPause();
                 }
                 else{
                     play = new Play(musicas);
                     play.start();
                 }
             }else if(input.equals("Pause")) {
-                Play.alterarEstado();
+                Play.alterarPause();
             }else if(input.equals(">")) {
                 Play.avancarMusica();
             }else if(input.equals("<")) {
@@ -62,6 +62,6 @@ public class Main {
             }
 
         }while(!input.equals("S"));
-        
+        */
     }
 }

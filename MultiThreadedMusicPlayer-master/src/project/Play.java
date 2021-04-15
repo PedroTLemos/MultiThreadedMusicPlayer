@@ -1,5 +1,7 @@
 package project;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -9,7 +11,9 @@ public class Play extends Thread{
     public static int musicaAtual = 0;
     public static boolean change = false;
     static boolean pause = false;
+    static boolean finished = false;
     static Thread action = null;
+
 
     private List<Musica> musicas;
     public Play(List<Musica> $listaMusicas) {
@@ -17,14 +21,18 @@ public class Play extends Thread{
     }
     @Override
     public void run() {
-        for (; musicaAtual < musicas.size(); musicaAtual++){
+        finished = false;
+        List<Musica> reproducaoAtual = new ArrayList<>(musicas);
+        for (; musicaAtual < reproducaoAtual.size(); musicaAtual++){
             System.out.println(musicaAtual);
             counter = 0;
-            for (int j = 0; j < musicas.get(musicaAtual).getDuracao(); j++) {
+            for (int j = 0; j < reproducaoAtual.get(musicaAtual).getDuracao(); j++) {
                 int tempo = counter;
                 int minutos = tempo / 60;
                 int segundos = tempo % 60;
-                tempoAtual = minutos + ":" + segundos;
+
+                tempoAtual = String.format("%02d", minutos) + ":" + String.format("%02d", segundos);
+                System.out.println(tempoAtual);
                 counter++;
                 try {
                     TimeUnit.SECONDS.sleep(1);
@@ -56,6 +64,8 @@ public class Play extends Thread{
             }
         }
         musicaAtual = 0;
+        finished = true;
+        System.out.println("Acabei!");
     }
 
     static public void avancarMusica(){
@@ -68,19 +78,18 @@ public class Play extends Thread{
         action.start();
     }
 
-    static public int retornarTempo(){
-        return counter;
+    static public int retornarMusicaAtual(){
+        return musicaAtual;
     }
 
-    static public void alterarEstado(){
+    static public void alterarPause(){
         pause = !pause;
     }
 
-    static public boolean getPause(){
-        return pause;
-    }
-    
     static public String getTempo(){
         return tempoAtual;
+    }
+    static public int getCounter() {
+    	return counter;
     }
 }
