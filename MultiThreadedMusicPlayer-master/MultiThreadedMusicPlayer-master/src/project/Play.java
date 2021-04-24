@@ -4,14 +4,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+import java.util.Random;
 
 public class Play extends Thread{
 	static String tempoAtual = "00:00";
     static int counter = 0;
+    static int lastPlayed = 0;
     public static int musicaAtual = 0;
     public static boolean change = false;
     static boolean pause = false;
     static boolean finished = false;
+    static boolean random = false;
     static Thread action = null;
 
 
@@ -52,6 +55,10 @@ public class Play extends Thread{
                 }
                 if (change) {
                     change = false;
+                    if(random) {
+                    	musicaAtual = (int)(Math.random()*reproducaoAtual.size()) - 1;
+                    }
+                    lastPlayed = musicaAtual;
                     break;
                 }
             }
@@ -62,10 +69,13 @@ public class Play extends Thread{
                     e.printStackTrace();
                 }
             }
+            if(random) {
+            	musicaAtual = (int)(Math.random()*reproducaoAtual.size()) - 1;
+            }
+            lastPlayed = musicaAtual;
         }
         musicaAtual = 0;
         finished = true;
-        System.out.println("Acabei!");
     }
 
     static public void avancarMusica(){
@@ -84,6 +94,10 @@ public class Play extends Thread{
 
     static public void alterarPause(){
         pause = !pause;
+    }
+    
+    static public void alterarRandom() {
+    	random = !random;
     }
 
     static public String getTempo(){
