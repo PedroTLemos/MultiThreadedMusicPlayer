@@ -13,6 +13,6 @@ public class Main {
     	
     	// cria o main em si
     	MainFrame frame = new MainFrame(); // cria a frame, la e onde tudo acontece de verdade
-    	frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // para fechar a janela adequadamente
+    	frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE); // para a execucop caso a janela seja fechada
     }
 }
