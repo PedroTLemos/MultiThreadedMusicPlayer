@@ -11,8 +11,10 @@ public class AdicionarMusica extends Thread{
         this.nomeMusica = nomeMusica;
         this.duracaoMusica = duracaoMusica;
     }
+    // Thread que adiciona uma masica no array e faz o log
     @Override
     public void run() {
+        //instancia o objeto Musica com os atributos fornecidos e adiciona no array, fazendo o log
         this.musicas.add(new Musica(this.nomeMusica, this.duracaoMusica));
         System.out.println("Música '" + nomeMusica + "' adicionada com sucesso");
     }

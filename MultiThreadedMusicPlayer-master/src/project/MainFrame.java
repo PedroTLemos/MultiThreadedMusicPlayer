@@ -219,9 +219,9 @@ public class MainFrame extends JFrame implements ActionListener{
 		// se relaciona com o timer da musica atual
 		else if (e.getSource().equals(timer)) {
 			if (musicas.size() != 0){
-				musicPlaying.setText(musicas.get(Play.retornarMusicaAtual()).getNome()); // muda o texto para o nome da musica atual
+				musicPlaying.setText(Play.atual.getNome()); // muda o texto para o nome da musica atual
 				musicTimer.setText(Play.getTempo()); // muda o timer pra o timer atual
-				int dur=musicas.get(Play.retornarMusicaAtual()).getDuracao(); // pega a duracao total da musica
+				int dur=Play.atual.getDuracao(); // pega a duracao total da musica
 				bar.setValue((Play.getCounter()*100 / dur)-1); // atualiza a barra conforme a situacao atual da musica
 			}
 			// verifica se a playlist acabou

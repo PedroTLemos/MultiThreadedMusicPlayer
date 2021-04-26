@@ -16,10 +16,5 @@ public class VoltarMusica extends Thread{
         if (Play.musicaAtual < -1){
             Play.musicaAtual = -1;
         }
-        
-        // verifica se o estado de random esta ativo
-        if(Play.random) {
-        	Play.musicaAtual = Play.lastPlayed;
-        }
     }
 }
